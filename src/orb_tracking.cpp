@@ -25,6 +25,7 @@ public:
     static bool _first = true;
     Mat gray;
     cvtColor(frame, gray, CV_BGR2GRAY);
+    cv::GaussianBlur(gray, gray, Size(3,3), 1.0);
     vector<KeyPoint> keypoints;
     Mat descriptors;
 
