@@ -22,9 +22,10 @@ int main(int argc, char* args[]) {
     }
   };
 
-  VideoCapture v_cap(0);
+  VideoCapture v_cap;
   v_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
   v_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+  v_cap.open(0);
 
   OrbFeatures matcher;
   TickMeter tm;

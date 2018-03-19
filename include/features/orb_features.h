@@ -3,6 +3,10 @@
 
 namespace features {
   class OrbFeatures {
+  private:
+    cv::Ptr<cv::ORB> orb_detector;
+    cv::Ptr<cv::DescriptorMatcher> matcher;
+
   public:
     struct Match {
       std::vector<cv::KeyPoint> matched;
@@ -21,11 +25,5 @@ namespace features {
 
     Match match(const Detection& prev_det,
                 const Detection& curr_det);
-
-  private:
-    cv::Ptr<cv::ORB> orb_detector;
-    cv::Ptr<cv::DescriptorMatcher> matcher;
-    Detection old_det;
-
   };
 }
