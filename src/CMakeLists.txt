@@ -1,11 +1,11 @@
-# feature_tracking_lib library
+# features_lib_lib library
 include_directories(${CMAKE_SOURCE_DIR}/include)
-set(feature_tracking_srcs
-  ${CMAKE_SOURCE_DIR}/include/feature_tracking/orb_tracker.h orb_tracker.cpp
+set(features_lib_srcs
+  ${CMAKE_SOURCE_DIR}/include/features/orb_features.h orb_features.cpp
 )
 
 set(libs_list ${OpenCV_LIBRARIES})
-add_library(feature_tracking_lib ${feature_tracking_srcs})
-target_link_libraries(feature_tracking_lib ${libs_list})
+add_library(features_lib ${features_lib_srcs})
+target_link_libraries(features_lib ${libs_list})
 
 add_subdirectory(apps)
