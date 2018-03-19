@@ -10,9 +10,13 @@ OrbFeatures::OrbFeatures() {
 
 OrbFeatures::Detection OrbFeatures::detect(const cv::Mat frame) {
   Mat gray;
-  cvtColor(frame, gray, CV_BGR2GRAY);
-  cv::GaussianBlur(gray, gray, Size(3,3), 1.0);
-
+  if(frame.channels() == 3) {
+    cvtColor(frame, gray, CV_BGR2GRAY);
+    cv::GaussianBlur(gray, gray, Size(3,3), 1.0);
+  } else {
+    gray = frame;
+  }
+  
   Detection results;
   orb_detector->detectAndCompute(gray, noArray(), results.keypoints, results.descriptors);
   return results;
