@@ -6,6 +6,6 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenCV REQUIRED)
 
-add_definitions(-DIMAGES_DIR="${CMAKE_SOURCE_DIR}/images/")
+add_definitions(-DTEST_IMAGES_DIR="${CMAKE_SOURCE_DIR}/images/")
 
 add_subdirectory(src)
