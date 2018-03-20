@@ -24,12 +24,14 @@ OrbFeatures::Detection OrbFeatures::detect(const cv::Mat frame) {
 
 OrbFeatures::Match OrbFeatures::match(const Detection& prev_det,
                                       const Detection& curr_det) {
+  Match results;
+  if(prev_det.keypoints.size() * curr_det.keypoints.size() == 0)
+    return results;
   //match
   std::vector<std::vector<DMatch>> matches;
   matcher->knnMatch(curr_det.descriptors, prev_det.descriptors, matches, 2);
 
   //get best matches
-  Match results;
   for(auto &match: matches) {
     if(match[0].distance < match[1].distance * 0.8) {
       results.matched.push_back(curr_det.keypoints[match[0].queryIdx]);
@@ -57,7 +59,7 @@ OrbFeatures::median_filter_matches(const OrbFeatures::Match& match_results) {
   
   vector<bool> mask(match_results.matched.size(), false);
   for(int i = 0; i < diffs.size(); i++)
-    mask[i] = (fabs(diffs[i] - median) / median) < 1;
+    mask[i] = (diffs[i] / median) < 2.5;
   
   return mask;
 }
