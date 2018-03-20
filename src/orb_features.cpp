@@ -41,3 +41,23 @@ OrbFeatures::Match OrbFeatures::match(const Detection& prev_det,
   }
   return results;
 }
+
+std::vector<bool>
+OrbFeatures::median_filter_matches(const OrbFeatures::Match& match_results) {
+  if(match_results.matched.size() == 0) return {};
+  vector<float> diffs;
+  for(int i = 0; i < match_results.matched.size(); i++) {
+    float px_diff = cv::norm(match_results.matched[i].pt - match_results.matched_src[i].pt);
+    diffs.push_back(px_diff);
+  }
+  
+  vector<float> diffs_sorted = diffs;
+  std::sort(diffs_sorted.begin(), diffs_sorted.end());
+  float median = diffs[diffs_sorted.size()/2];
+  
+  vector<bool> mask(match_results.matched.size(), false);
+  for(int i = 0; i < diffs.size(); i++)
+    mask[i] = (fabs(diffs[i] - median) / median) < 1;
+  
+  return mask;
+}

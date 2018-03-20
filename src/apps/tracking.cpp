@@ -18,12 +18,16 @@ int main(int argc, char* args[]) {
   for(;;) {
     Mat frame;
     v_cap >> frame;
+    v_cap >> frame;
+    v_cap >> frame;
     static OrbFeatures::Detection prev = matcher.detect(frame);
     OrbFeatures::Detection curr = matcher.detect(frame);
 
     OrbFeatures::Match results = matcher.match(prev, curr);
+    vector<bool> mask = OrbFeatures::median_filter_matches(results);
     features::draw_points(frame, results.outliers, Scalar(0,0,255));
-    features::draw_history(frame, results.matched_src, results.matched);
+    features::draw_points(frame, results.matched);
+    features::draw_history(frame, results.matched_src, results.matched, mask);
 
     std::swap(prev, curr);
     imshow("orb_tracking", frame);

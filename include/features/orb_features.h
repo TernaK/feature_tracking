@@ -25,5 +25,8 @@ namespace features {
 
     Match match(const Detection& prev_det,
                 const Detection& curr_det);
+    
+    static std::vector<bool>
+    median_filter_matches(const OrbFeatures::Match& match_results);
   };
 }

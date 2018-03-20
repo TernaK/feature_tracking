@@ -8,24 +8,6 @@ using namespace cv;
 
 std::string IMAGES_DIR = TEST_IMAGES_DIR;
 
-std::vector<bool> median_filter_matches(const OrbFeatures::Match& match_results) {
-  vector<float> diffs;
-  for(int i = 0; i < match_results.matched.size(); i++) {
-    float px_diff = cv::norm(match_results.matched[i].pt - match_results.matched_src[i].pt);
-    diffs.push_back(px_diff);
-  }
-  
-  vector<float> diffs_sorted = diffs;
-  std::sort(diffs_sorted.begin(), diffs_sorted.end());
-  float median = diffs[diffs_sorted.size()/2];
-  
-  vector<bool> mask(match_results.matched.size(), false);
-  for(int i = 0; i < diffs.size(); i++)
-    mask[i] = (fabs(diffs[i] - median) / median) < 1;
-  
-  return mask;
-}
-
 int main(int argc, char* args[]) {
   OrbFeatures matcher;
   TickMeter tm;
@@ -41,10 +23,10 @@ int main(int argc, char* args[]) {
 
   OrbFeatures::Match match_results = matcher.match(prev, curr);
   
-  vector<bool> mask = median_filter_matches(match_results);
+  vector<bool> mask = OrbFeatures::median_filter_matches(match_results);
   
 //  features::draw_points(frame1, match_results.outliers, Scalar(0,0,255));
-  features::draw_history(frame1, match_results.matched_src, match_results.matched);
+  features::draw_history(frame1, match_results.matched_src, match_results.matched, mask);
   
 //  cvtColor(frame0, frame0, CV_BGR2GRAY);
 //  cvtColor(frame1, frame1, CV_BGR2GRAY);

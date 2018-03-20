@@ -7,7 +7,7 @@ namespace features {
                           cv::Scalar color = cv::Scalar(0,255,0)) {
     for(auto &kp: kps) {
       cv::Point pt(kp.pt.x, kp.pt.y);
-      cv::drawMarker(frame, pt, color);
+      cv::drawMarker(frame, pt, color, cv::MARKER_SQUARE, 10, 1);
     }
   };
 
@@ -19,7 +19,7 @@ namespace features {
       if(!mask.empty() && !mask[k]) continue;
       cv::Point pt1(kps_src[k].pt.x, kps_src[k].pt.y);
       cv::Point pt2(kps_dst[k].pt.x, kps_dst[k].pt.y);
-      cv::arrowedLine(frame, pt1, pt2, cv::Scalar(0,255,0));
+      cv::line(frame, pt1, pt2, cv::Scalar(0,255,0));
     }
   };
 }
