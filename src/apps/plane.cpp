@@ -35,6 +35,7 @@ int main(int argc, char* args[]) {
     vector<bool> mask = OrbFeatures::median_filter_matches(match_results);
     
     features::draw_points(frame1, match_results.matched);
+    features::draw_points(frame2, match_results.matched_src);
     
     cv::Mat concat;
     cv::hconcat(frame1, frame2, concat);
