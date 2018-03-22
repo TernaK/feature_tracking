@@ -12,11 +12,11 @@ int main(int argc, char* args[]) {
   OrbFeatures matcher;
   TickMeter tm;
   
-  cv::VideoCapture cam1(0);
+  cv::VideoCapture cam1(1);
   cam1.set(CV_CAP_PROP_FRAME_WIDTH, 640);
   cam1.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
   
-  cv::VideoCapture cam2(1);
+  cv::VideoCapture cam2(2);
   cam2.set(CV_CAP_PROP_FRAME_WIDTH, 640);
   cam2.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
   
@@ -33,12 +33,12 @@ int main(int argc, char* args[]) {
     OrbFeatures::Detection feat1 = matcher.detect(frame1);
     OrbFeatures::Detection feat2 = matcher.detect(frame2);
 
-    OrbFeatures::Match match_results = matcher.match(feat1, feat2);
+    OrbFeatures::Match match_results = matcher.match(feat2, feat1);
     
     vector<bool> mask = OrbFeatures::median_filter_matches(match_results);
     
-    features::draw_points(frame2, match_results.outliers, Scalar(0,0,255));
-    features::draw_history(frame2, match_results.matched_src, match_results.matched, mask);
+    features::draw_points(frame1, match_results.matched);
+//    features::draw_history(frame2, match_results.matched_src, match_results.matched, mask);
     
 //    cvtColor(frame1, frame1, CV_BGR2GRAY);
 //    cvtColor(frame2, frame2, CV_BGR2GRAY);
