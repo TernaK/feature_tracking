@@ -35,13 +35,13 @@ int main(int argc, char* args[]) {
     vector<bool> mask = OrbFeatures::median_filter_matches(match_results);
     
     features::draw_points(frame1, match_results.matched);
-    features::draw_points(frame2, match_results.matched_src);
+    features::draw_points(frame2, match_results.matched_src, cv::Scalar(255,255,0));
     
     cv::Mat concat;
     cv::hconcat(frame1, frame2, concat);
     for(size_t k = 0; k < match_results.matched_src.size(); k++) {
       if(!mask.empty() && !mask[k]) continue;
-      cv::Point pt1(frame1.rows + match_results.matched_src[k].pt.x, match_results.matched_src[k].pt.y);
+      cv::Point pt1(frame1.cols + match_results.matched_src[k].pt.x, match_results.matched_src[k].pt.y);
       cv::Point pt2(match_results.matched[k].pt.x, match_results.matched[k].pt.y);
       cv::line(concat, pt1, pt2, cv::Scalar(0,255,0));
     }
