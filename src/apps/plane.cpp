@@ -9,6 +9,12 @@ using namespace cv;
 std::string IMAGES_DIR = TEST_IMAGES_DIR;
 
 int main(int argc, char* args[]) {
+  cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << 420,0,0, 0,420,0, 0,0,1);
+  cv::Mat dist_coeffs = (cv::Mat_<float>(5, 1) <<
+                         -3.8976412000174743e-01, 1.9566837393430092e-01,
+                         1.3830934799587706e-03, -8.5691494242946136e-04,
+                         -5.9753725384274280e-02);
+  
   OrbFeatures matcher;
   TickMeter tm;
   
@@ -26,6 +32,9 @@ int main(int argc, char* args[]) {
     
     cam1 >> frame1;
     cam2 >> frame2;
+    
+    cv::undistort(frame1, frame1, camera_matrix, dist_coeffs);
+    cv::undistort(frame2, frame2, camera_matrix, dist_coeffs);
     
     OrbFeatures::Detection feat1 = matcher.detect(frame1);
     OrbFeatures::Detection feat2 = matcher.detect(frame2);
