@@ -9,11 +9,12 @@ using namespace cv;
 std::string IMAGES_DIR = TEST_IMAGES_DIR;
 
 int main(int argc, char* args[]) {
-  cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << 420,0,0, 0,420,0, 0,0,1);
+  float focal = 394;
+  cv::Mat camera_matrix = (cv::Mat_<float>(3,3) << focal,0,320, 0,focal,240, 0,0,1);
   cv::Mat dist_coeffs = (cv::Mat_<float>(5, 1) <<
-                         -3.8976412000174743e-01, 1.9566837393430092e-01,
-                         1.3830934799587706e-03, -8.5691494242946136e-04,
-                         -5.9753725384274280e-02);
+                         -3.8929828864558985e-01, 2.3330816257346310e-01,
+       -2.8870364538126701e-03, -5.6174933073543411e-03,
+       -8.7092628090518112e-02);
   
   OrbFeatures matcher;
   TickMeter tm;
@@ -29,12 +30,12 @@ int main(int argc, char* args[]) {
   for(;;) {
     cv::Mat frame1;// = cv::imread(IMAGES_DIR + "aloe_l.jpg");
     cv::Mat frame2;// = cv::imread(IMAGES_DIR + "aloe_r.jpg");
+    cv::Mat temp1, temp2;
+    cam1 >> temp1;
+    cam2 >> temp2;
     
-    cam1 >> frame1;
-    cam2 >> frame2;
-    
-    cv::undistort(frame1, frame1, camera_matrix, dist_coeffs);
-    cv::undistort(frame2, frame2, camera_matrix, dist_coeffs);
+    cv::undistort(temp1, frame1, camera_matrix, dist_coeffs);
+    cv::undistort(temp2, frame2, camera_matrix, dist_coeffs);
     
     OrbFeatures::Detection feat1 = matcher.detect(frame1);
     OrbFeatures::Detection feat2 = matcher.detect(frame2);
@@ -54,16 +55,22 @@ int main(int argc, char* args[]) {
       cv::Point pt2(match_results.matched[k].pt.x, match_results.matched[k].pt.y);
       cv::line(concat, pt1, pt2, cv::Scalar(0,255,0));
     }
+    imshow("orb_tracking", concat);
+    
 //    features::draw_history(frame2, match_results.matched_src, match_results.matched, mask);
     
-//    cvtColor(frame1, frame1, CV_BGR2GRAY);
-//    cvtColor(frame2, frame2, CV_BGR2GRAY);
-//    Ptr<StereoMatcher> stereo = StereoBM::create();
-//    cv::Mat disparity;
-//    stereo->compute(frame1, frame2, disparity);
-//
-//    imshow("orb_tracking", disparity * 1000);
-    imshow("orb_tracking", concat);
+    /*
+    cvtColor(frame1, frame1, CV_BGR2GRAY);
+    cvtColor(frame2, frame2, CV_BGR2GRAY);
+    int block = 15;
+    Ptr<StereoMatcher> stereo = StereoSGBM::create(0, 16, block);
+    cv::Mat disparity;
+    stereo->compute(frame1, frame2, disparity);
+    
+    disparity.convertTo(disparity, CV_32F);
+    cv::Mat depth = 0.105f * focal / disparity;
+    imshow("orb_tracking", depth);
+    */
     if(cv::waitKey(30) == 27) break;
   }
 }
