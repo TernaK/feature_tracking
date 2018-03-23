@@ -1,0 +1,24 @@
+%YAML:1.0
+---
+M1: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 4.7501191048986709e+02, 0., 320., 0., 4.7858798481066032e+02,
+       240., 0., 0., 1. ]
+D1: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ 0., 0., 0., 0., 0. ]
+M2: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 4.8107424191850265e+02, 0., 320., 0., 4.8035520879056799e+02,
+       240., 0., 0., 1. ]
+D2: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ 0., 0., 0., 0., 0. ]
