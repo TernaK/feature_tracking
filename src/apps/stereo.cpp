@@ -9,9 +9,12 @@ using namespace cv;
 std::string IMAGES_DIR = TEST_IMAGES_DIR;
 
 int main(int argc, char* args[]) {
-  cerr << "usage: stereo <intrinsics>.yml <extrinsics>.yml" << endl;
-  cv::FileStorage in_data("intrinsics.yml", FileStorage::READ);
-  cv::FileStorage ex_data("extrinsics.yml", FileStorage::READ);
+  if(argc != 3) {
+    cerr << "usage: stereo <intrinsics>.yml <extrinsics>.yml" << endl;
+    exit(EXIT_FAILURE);
+  }
+  cv::FileStorage in_data(args[1], FileStorage::READ);
+  cv::FileStorage ex_data(args[2], FileStorage::READ);
 
   cv::Mat camera_matrix_l, camera_matrix_r;
   cv::Mat distortion_l, distortion_r;
