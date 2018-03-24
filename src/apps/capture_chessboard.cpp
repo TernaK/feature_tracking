@@ -24,6 +24,11 @@ int main(int argc, char* args[]) {
     cam2 >> temp2;
   }
 
+  cout <<
+  "<?xml version=\"1.0\"?>\n" <<
+  "<opencv_storage>\n" <<
+  "<imagelist>\n";
+
   for(int i = -5; i < 10; i++) {
     /*
     for(int t = 2; t >= 0; t--) {
@@ -37,9 +42,16 @@ int main(int argc, char* args[]) {
     cv::Mat frame2;
     cam1 >> frame1;
     cam2 >> frame2;
+
     if(i < 0) continue;
     cv::imwrite(cv::format("left_%d.jpg", i), frame1);
     cv::imwrite(cv::format("right_%d.jpg", i), frame2);
-    cout << "captured" << endl;
+    cerr << "captured" << endl;
+    cout << "\"" << cv::format("left_%d.jpg", i) << "\"\n";
+    cout << "\"" << cv::format("right_%d.jpg", i) << "\"\n";
   }
+
+  cout <<
+  "</imagelist>\n" <<
+  "</opencv_storage>\n";
 }
