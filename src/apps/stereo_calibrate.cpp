@@ -374,6 +374,6 @@ int main(int argc, char** argv)
         return print_help();
     }
 
-    StereoCalib(imagelist, boardSize, squareSize, true, false, showRectified);
+    StereoCalib(imagelist, boardSize, squareSize, true, true, showRectified);
     return 0;
 }
