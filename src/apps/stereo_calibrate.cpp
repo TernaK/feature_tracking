@@ -56,7 +56,7 @@ static int print_help()
 
 
 static void
-StereoCalib(const vector<string>& imagelist, Size boardSize, float squareSize, bool displayCorners = true, bool useCalibrated=true, bool showRectified=true)
+StereoCalib(const vector<string>& imagelist, Size boardSize, float squareSize, bool displayCorners = true, bool useCalibrated=false, bool showRectified=true)
 {
     if( imagelist.size() % 2 != 0 )
     {
@@ -163,22 +163,27 @@ StereoCalib(const vector<string>& imagelist, Size boardSize, float squareSize, b
     cout << "Running stereo calibration ...\n";
 
     Mat cameraMatrix[2], distCoeffs[2];
-    cameraMatrix[0] = initCameraMatrix2D(objectPoints,imagePoints[0],imageSize,0);
-    cameraMatrix[1] = initCameraMatrix2D(objectPoints,imagePoints[1],imageSize,0);
+//    cameraMatrix[0] = initCameraMatrix2D(objectPoints,imagePoints[0],imageSize,0);
+//    cameraMatrix[1] = initCameraMatrix2D(objectPoints,imagePoints[1],imageSize,0);
+     cv::Mat init_cam_mat = (cv::Mat_<double>(3,3) << 470, 0., 320.,
+                                                     0., 470, 240.,
+                                                     0., 0., 1.);
+    cameraMatrix[0] = init_cam_mat;
+    cameraMatrix[1] = init_cam_mat;
     Mat R, T, E, F;
 
     double rms = stereoCalibrate(objectPoints, imagePoints[0], imagePoints[1],
-                    cameraMatrix[0], distCoeffs[0],
-                    cameraMatrix[1], distCoeffs[1],
-                    imageSize, R, T, E, F,
-                    //CALIB_FIX_ASPECT_RATIO +
-                    CALIB_ZERO_TANGENT_DIST +
-                    //CALIB_USE_INTRINSIC_GUESS +
-                    CALIB_FIX_INTRINSIC,
-                    //CALIB_SAME_FOCAL_LENGTH +
-                    //CALIB_RATIONAL_MODEL +
-                    //CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
-                    TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
+                                 cameraMatrix[0], distCoeffs[0],
+                                 cameraMatrix[1], distCoeffs[1],
+                                 imageSize, R, T, E, F,
+                                 //CALIB_FIX_ASPECT_RATIO +
+                                 //CALIB_FIX_INTRINSIC +
+                                 //CALIB_RATIONAL_MODEL +
+                                 CALIB_FIX_PRINCIPAL_POINT +
+                                 CALIB_ZERO_TANGENT_DIST +
+                                 CALIB_USE_INTRINSIC_GUESS +
+                                 CALIB_SAME_FOCAL_LENGTH,
+                                 TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
     cout << "done with RMS error=" << rms << endl;
 
 // CALIBRATION QUALITY CHECK
