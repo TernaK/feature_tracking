@@ -6,14 +6,20 @@ using namespace std;
 using namespace features;
 using namespace cv;
 
+cv::Size frame_size = cv::Size(640,480);
+
 int main(int argc, char* args[]) {
   VideoCapture v_cap;
   v_cap.open(0);
-  v_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-  v_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+  v_cap.set(CV_CAP_PROP_FRAME_WIDTH, frame_size.width);
+  v_cap.set(CV_CAP_PROP_FRAME_HEIGHT, frame_size.height);
 
   OrbFeatures matcher;
   TickMeter tm;
+
+  Camera camera(std::string(PROJ_CALIBRATION_DIR) + "logitech_calib.yml",
+                frame_size);
+  cout << camera.camera_matrix << endl;
 
   for(;;) {
     Mat frame;

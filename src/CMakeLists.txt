@@ -1,6 +1,7 @@
 # features_lib_lib library
 include_directories(${CMAKE_SOURCE_DIR}/include)
 set(features_lib_srcs
+  ${CMAKE_SOURCE_DIR}/include/features/features.h features.cpp
   ${CMAKE_SOURCE_DIR}/include/features/orb_features.h orb_features.cpp
 )
 
