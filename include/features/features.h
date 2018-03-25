@@ -26,6 +26,17 @@ namespace features {
     }
   };
 
+  static inline std::vector<cv::Point2f>
+  keypoints_to_points(std::vector<cv::KeyPoint> kps,
+                      std::vector<bool> mask = {}) {
+    std::vector<cv::Point2f> pts;
+    for(int k = 0; k < kps.size(); k++) {
+      if(!mask.empty() && !mask[k]) continue;
+      pts.push_back(kps[k].pt);
+    }
+    return pts;
+  }
+
   /// Camera
   //--------------------------------------------------
   struct Camera {
