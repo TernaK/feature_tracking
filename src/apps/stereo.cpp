@@ -98,7 +98,9 @@ int main(int argc, char* args[]) {
 //
 //    //disparity.convertTo(disparity, CV_32F);
 //    //cv::Mat depth = 0.105f * focal / disparity;
-//    imshow("orb_tracking", frame2);
+// cv::Mat colorized;
+//    //cv::applyColorMap(disparity, colorized, cv::COLORMAP_JET);
+//    imshow("disparity", colorized);
 
     if(cv::waitKey(30) == 27) break;
   }
