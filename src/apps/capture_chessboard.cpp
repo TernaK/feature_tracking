@@ -8,8 +8,6 @@ using namespace std;
 using namespace features;
 using namespace cv;
 
-std::string IMAGES_DIR = TEST_IMAGES_DIR;
-
 int main(int argc, char* args[]) {
   cv::VideoCapture cam1(1);
   cam1.set(CV_CAP_PROP_FRAME_WIDTH, 640);

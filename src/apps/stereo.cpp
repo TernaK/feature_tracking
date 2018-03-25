@@ -6,7 +6,7 @@ using namespace std;
 using namespace features;
 using namespace cv;
 
-std::string IMAGES_DIR = TEST_IMAGES_DIR;
+std::string IMAGES_DIR = PROJ_TEST_IMAGES_DIR;
 
 int main(int argc, char* args[]) {
   if(argc != 3) {

@@ -9,3 +9,6 @@ target_link_libraries(capture_chessboard features_lib ${libs_list})
 
 add_executable(stereo_calibrate stereo_calibrate.cpp)
 target_link_libraries(stereo_calibrate features_lib ${libs_list})
+
+add_executable(calibrate calibrate.cpp)
+target_link_libraries(calibrate features_lib ${libs_list})
