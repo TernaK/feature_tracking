@@ -93,7 +93,7 @@ int main(int argc, char* args[]) {
     cvtColor(frame2, frame2, CV_BGR2GRAY);
     int block = 21;
     Ptr<StereoMatcher> stereo = StereoBM::create();
-    stereo->setMinDisparity(2);
+    stereo->setMinDisparity(4);
     stereo->setNumDisparities(128);
     stereo->setBlockSize(block);
     stereo->setSpeckleRange(16);
