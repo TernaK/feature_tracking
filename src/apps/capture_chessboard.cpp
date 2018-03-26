@@ -27,7 +27,7 @@ int main(int argc, char* args[]) {
   "<opencv_storage>\n" <<
   "<imagelist>\n";
 
-  for(int i = -5; i < 10; i++) {
+  for(int i = -5; i < 15; i++) {
     /*
     for(int t = 2; t >= 0; t--) {
       cout << t << "..." << std::flush;

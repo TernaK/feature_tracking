@@ -89,18 +89,23 @@ int main(int argc, char* args[]) {
 //    features::draw_history(frame2, match_results.matched_src, match_results.matched, mask);
 
 
-//    cvtColor(frame1, frame1, CV_BGR2GRAY);
-//    cvtColor(frame2, frame2, CV_BGR2GRAY);
-//    int block = 15;
-//    Ptr<StereoMatcher> stereo = StereoBM::create(16, block);
-//    cv::Mat disparity;
-//    stereo->compute(frame1, frame2, disparity);
-//
-//    //disparity.convertTo(disparity, CV_32F);
+    cvtColor(frame1, frame1, CV_BGR2GRAY);
+    cvtColor(frame2, frame2, CV_BGR2GRAY);
+    int block = 21;
+    Ptr<StereoMatcher> stereo = StereoSGBM::create();
+    stereo->setMinDisparity(2);
+    stereo->setNumDisparities(128);
+    stereo->setBlockSize(block);
+    stereo->setSpeckleRange(16);
+    stereo->setSpeckleWindowSize(45);
+    cv::Mat disparity;
+    stereo->compute(frame1, frame2, disparity);
+
+    disparity.convertTo(disparity, CV_8UC1);
 //    //cv::Mat depth = 0.105f * focal / disparity;
-// cv::Mat colorized;
-//    //cv::applyColorMap(disparity, colorized, cv::COLORMAP_JET);
-//    imshow("disparity", colorized);
+    cv::Mat colorized;
+    cv::applyColorMap(disparity, colorized, cv::COLORMAP_JET);
+    imshow("disparity", colorized);
 
     if(cv::waitKey(30) == 27) break;
   }
