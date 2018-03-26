@@ -92,7 +92,7 @@ int main(int argc, char* args[]) {
     cvtColor(frame1, frame1, CV_BGR2GRAY);
     cvtColor(frame2, frame2, CV_BGR2GRAY);
     int block = 21;
-    Ptr<StereoMatcher> stereo = StereoSGBM::create();
+    Ptr<StereoMatcher> stereo = StereoBM::create();
     stereo->setMinDisparity(2);
     stereo->setNumDisparities(128);
     stereo->setBlockSize(block);
